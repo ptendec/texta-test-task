@@ -1,0 +1,44 @@
+.RegForm{
+  width: 80%;
+  height: 800px;
+  max-width: 1200px;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: row;
+  background-color: #fff;
+}
+
+.mainImage{
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  width: 40%;
+}
+
+.rightPart{
+  width: 60%;
+  padding-top: 80px;
+  padding-left: 80px;
+  padding-right: 120px;
+}
+
+.divideLine{
+  margin-top: 30px;
+  height: 2px;
+  background-color: #e5e5e5;
+  opacity: 0.7;
+  margin-bottom: 50px;
+}
+
+.headerText span{
+  color: #8384a6;
+  font-family: 'Thiccboi Semibold', sans-serif;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.headerText p{
+  font-family: 'Thiccboi ExtraBold', sans-serif;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #02044a;
+}

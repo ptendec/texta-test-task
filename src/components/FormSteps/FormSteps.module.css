@@ -1,0 +1,34 @@
+.formSteps{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.formStep{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.formStep span{
+  background-color: #f9f9fb;
+  color: #8384a6;
+  padding: 15px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: 'Thiccboi Semibold', sans-serif;
+  -webkit-transition: all 0.3s 0s ease;
+  -moz-transition: all 0.3s 0s ease;
+  -o-transition: all 0.3s 0s ease;
+  transition: all 0.3s 0s ease;
+}
+
+.formStep p{
+  margin-left: 10px;
+  display: inline-block;
+  font-family: 'Thiccboi Semibold', sans-serif;
+  font-weight: 400;
+  color: #8384a6;
+}
+

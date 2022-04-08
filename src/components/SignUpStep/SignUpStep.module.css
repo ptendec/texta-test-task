@@ -1,0 +1,94 @@
+.signUpStep{
+  justify-content: space-between;
+}
+
+.inputWrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.signUpStep label{
+  font-size: 16px;
+  font-family: 'Thiccboi Semibold', sans-serif;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.signUpStep input{
+  padding: 15px 15px;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #e3e3eb;
+  width: calc(95% - 32px);
+  font-size: 16px;
+  font-family: 'Thiccboi Semibold', sans-serif;
+}
+
+
+.signUpStep input:focus{
+  border-color: #0c75ff;
+}
+
+.signUpStep div{
+  position: relative;
+}
+
+.addressInput{
+  width: calc(97.5% - 32px) !important;
+}
+
+.errorIco{
+  position: absolute;
+  right: 25px;
+  top: 42px;
+}
+
+
+.errorMessage{
+  font-size: 13px;
+  color: #de4250;
+  display: block;
+  font-family: 'Thiccboi Semibold', sans-serif;
+  margin-top: 5px;
+  visibility: hidden;
+}
+
+.divideLine{
+  margin-top: 30px;
+  height: 2px;
+  background-color: #e5e5e5;
+  opacity: 0.7;
+  margin-bottom: 40px;
+}
+
+.actionArea{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.nextStepBtn{
+  padding: 20px 35px;
+  background-color: #0c75ff;
+  color: #ffffff;
+  font-family: 'Thiccboi Semibold', sans-serif;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-transition: all 0.3s 0s ease;
+  -moz-transition: all 0.3s 0s ease;
+  -o-transition: all 0.3s 0s ease;
+  transition: all 0.3s 0s ease;
+}
+
+.nextStepBtn:hover{
+  transform: translateY(-2px);
+}
+
+.nextStepBtn:active{
+  transform: translateY(0px);
+}
