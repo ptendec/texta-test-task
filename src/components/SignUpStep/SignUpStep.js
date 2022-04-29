@@ -4,33 +4,12 @@ import errorIco from '../../assests/images/warning.png'
 import {emailValidate} from "../utils/validate"
 import InputMask from 'react-input-mask';
 
-/*
-    CHECKME Пока что messages и checkboxes хранятся без привязки к пользователю,
-    чтобы это пофиксить, можно при отправке запроса включать userId для обьектов(то есть документов) messages и checkboxes,
-    либо создавать эти обьекты внутри обьекта user
-*/
-
-/*
-    CHECKME При нажатии на кнопку Back, мне следовало с помощью id всех обьектов, хранящихся в компоненте RegForm(не в дочерних,
-    так как, после перерисовки их state теряется) сделать запрос getDoc и заново поставить эти значения на свои поля.
-    А при нажатий обратно на Next Step, мне следовало через фукнцию setDoc обновить, поля обьектов текущего Step
-*/
-
-/*
-    CHECKME При переходе на Next Step на первом этапе, мне опять же следовало сделать валидацию полей email и dateOfBirth
-
-    CHECKME Касательно адаптивности, из-за отсутсвия мобильного макета и то, что макет в PDF формате, трудно было на глаз верстать.
-    А адаптивность намного больше времени заняло бы.
-
-    Все эти моменты я не сделал, по причине того, что это времязатратный процесс. Но, в случае рабочей обстановки, я бы учел эти факторы следуя UX.
-*/
-
-const SignUpStep = ({eventChangeStepHandler, eventSubmitFormHandler, activeStep}) => {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [dateOfBirth, setDateOfBirth] = useState('')
-  const [email, setEmail] = useState('')
-  const [address, setAddress] = useState('')
+const SignUpStep = ({eventChangeStepHandler, eventSubmitFormHandler, activeStep, user}) => {
+  const [firstName, setFirstName] = useState(user?.firstName ?? '')
+  const [lastName, setLastName] = useState(user?.lastName ?? '')
+  const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth ?? '')
+  const [email, setEmail] = useState(user?.email ?? '')
+  const [address, setAddress] = useState(user?.address ?? '')
   const [isEmailInCorrect, setIsEmailInCorrect] = useState(null)
   const [emailError, setEmailError] = useState('Email can\'t be empty')
   const [isDateOfBirthInCorrect, setIsDateOfBirthInCorrect] = useState(null)
@@ -38,6 +17,17 @@ const SignUpStep = ({eventChangeStepHandler, eventSubmitFormHandler, activeStep}
 
   const eventGoNextStepHandler = async (event) => {
     event.preventDefault();
+    if (!emailValidate(email)) {
+      setIsEmailInCorrect(!emailValidate(event.target.value))
+      setEmailError("Incorrect email")
+      return false
+    }
+    if (new Date(dateOfBirth) == 'Invalid Date') {
+      setIsDateOfBirthInCorrect(true)
+      setDateOfBirthError("Incorrect date of birth")
+      return false
+    }
+
     const signUpData = {
       firstName,
       lastName,
@@ -77,7 +67,6 @@ const SignUpStep = ({eventChangeStepHandler, eventSubmitFormHandler, activeStep}
         break
       case 'dateOfBirth' :
         const isDateValid = new Date(event.target.value)
-        console.log(isDateValid)
         if (String(isDateValid) === 'Invalid Date') {
           setIsDateOfBirthInCorrect(true)
           setDateOfBirthError("Incorrect date of birth")
@@ -114,7 +103,8 @@ const SignUpStep = ({eventChangeStepHandler, eventSubmitFormHandler, activeStep}
           <label style={isDateOfBirthInCorrect ? {color: 'red'} : {}} htmlFor="dateOfBirth">
             Date of birth
           </label>
-          <InputMask style={isDateOfBirthInCorrect ? {borderColor: 'red'} : {}} onBlur={event => eventBlurHandler(event)}
+          <InputMask style={isDateOfBirthInCorrect ? {borderColor: 'red'} : {}}
+                     onBlur={event => eventBlurHandler(event)}
                      placeholder="12 / 01 / 2003" value={dateOfBirth} id="dateOfBirth" name="dateOfBirth"
                      mask="99 / 99 / 9999"
                      onChange={event => eventInputChangeHandler(event)}/>

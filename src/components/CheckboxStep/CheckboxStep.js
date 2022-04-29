@@ -44,7 +44,7 @@ const CheckboxStep = ({eventChangeStepHandler, eventSubmitFormHandler, activeSte
       <div className={classes.divideLine}/>
       <div className={classes.actionArea}>
         <button onClick={(event) => {
-          event.preventDefault();
+          event.preventDefault()
           eventChangeStepHandler(false)
         }} className={classes.backBtn}>Back
         </button>

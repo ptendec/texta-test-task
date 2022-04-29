@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from "./RegForm.module.css"
 import Form from "../Form/Form"
 import image from '../../assests/images/img.png'
@@ -8,55 +8,73 @@ import MessageStep from "../MessageStep/MessageStep"
 import CheckboxStep from "../CheckboxStep/CheckboxStep"
 import {db} from '../utils/firebase-config'
 import {collection, getDocs, addDoc} from 'firebase/firestore'
+import {useNavigate} from 'react-router-dom'
 
 
 const RegForm = () => {
   const [activeStep, setActiveStep] = useState(0)
+  const [user, setUser] = useState()
+  const [message, setMessage] = useState()
+  const [checkbox, setCheckbox] = useState()
   const usersCollectionRef = collection(db, 'users')
-  const messagesCollectionRef = collection(db, 'messages')
-  const checkboxesCollectionRef = collection(db, 'checkboxes')
+  const navigate = useNavigate()
 
   const eventSubmitFormHandler = async (data, step) => {
     switch (step) {
       case 0 :
-        const users = (await getDocs(usersCollectionRef)).docs.map(doc => ({...doc.data(), id: doc.id}))
-        const isUserExists = users.find((user) => {
-          return user.email === data.email
-        })
-        if (isUserExists === undefined) {
-          await addDoc(usersCollectionRef, {data})
-        }
+        setUser(data)
         break
       case 1 :
-        await addDoc(messagesCollectionRef, {data})
+        setMessage(data)
         break
       case 2 :
-        await addDoc(checkboxesCollectionRef, {data})
+        setCheckbox(data)
+        await addDoc(usersCollectionRef, {
+          ...user,
+          ...message,
+          ...data
+        }).then(response => {
+          console.log(response.id)
+          navigate(`/saved/${response.id}`)
+        })
         break
     }
   }
 
   const eventChangeStepHandler = (moveForward) => {
-
     moveForward ? setActiveStep((prevState => prevState + 1)) : setActiveStep(prevState => prevState - 1)
   }
 
   const steps = [
     {
-      component: <SignUpStep eventChangeStepHandler={eventChangeStepHandler}
-                             eventSubmitFormHandler={eventSubmitFormHandler} activeStep={activeStep}/>,
+      component: <SignUpStep
+        eventChangeStepHandler={eventChangeStepHandler}
+        eventSubmitFormHandler={eventSubmitFormHandler}
+        activeStep={activeStep}
+        user={user}
+      />,
       name: 'Sign UP'
     },
     {
-      component: <MessageStep eventChangeStepHandler={eventChangeStepHandler}
-                              eventSubmitFormHandler={eventSubmitFormHandler} activeStep={activeStep}/>,
+      component: <MessageStep
+        eventChangeStepHandler={eventChangeStepHandler}
+        eventSubmitFormHandler={eventSubmitFormHandler}
+        activeStep={activeStep}
+        message={message}
+      />,
       name: 'Message'
     },
     {
-      component: <CheckboxStep eventChangeStepHandler={eventChangeStepHandler}
-                               eventSubmitFormHandler={eventSubmitFormHandler} activeStep={activeStep}/>,
+      component: <CheckboxStep
+        eventChangeStepHandler={eventChangeStepHandler}
+        eventSubmitFormHandler={eventSubmitFormHandler}
+        activeStep={activeStep}
+        checkbox={checkbox}
+      />,
       name: 'Checkbox'
     }]
+
+
   return (
     <div className={classes.RegForm}>
       <img className={classes.mainImage} src={image} alt=""/>
